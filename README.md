@@ -9,8 +9,25 @@ nothing uploaded. Just open the file.
 
 ## Open it
 
-Open `mjtechlabs-video-studio.html` in **desktop Chrome or Edge** (best video
-export support) and you're done.
+Open `mjtechlabs-video-studio.html` in **desktop Chrome or Edge** (fastest
+export) and you're done. It also works in other modern browsers.
+
+## Export format (TikTok / Instagram / YouTube Shorts ready)
+
+Clips export as a **standard H.264 `.mp4`** — the exact format TikTok, Instagram
+Reels and YouTube Shorts accept and play directly, no conversion needed. There
+are two encoders, chosen automatically:
+
+- **WebCodecs** (desktop Chrome / Edge): hardware-accelerated H.264 with
+  **faststart** (the `moov` atom is written to the front of the file). Fast.
+- **WASM H.264 encoder** (any other browser, bundled offline): software fallback
+  that still produces a valid, non-fragmented `.mp4`. Slower, but it works
+  everywhere with no plugins.
+
+It does **not** use `MediaRecorder`, which produces `.webm` or *fragmented* MP4
+files that TikTok/Instagram reject as "non-playable" — that was the cause of the
+earlier broken exports. Encoding runs entirely in your browser; nothing is
+uploaded.
 
 ## What it does
 
