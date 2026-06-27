@@ -42,21 +42,53 @@ uploaded.
    - *Your Business Isn't Bad, It's Invisible* (SEO)
    - *Pricing & Plans* (KSh 65,000 / 95,000 / 125,000)
    - *All services (showcase)*
-2. **Pick a length** — 3s / 6s / 9s / 12s (more slides on longer clips).
-3. **Pick a vibe** — background + brand-blue accent. Backgrounds:
+2. **Pick a platform** — *TikTok / Reels / Shorts / All 3*. This sets the
+   correct **safe zone** (so text never hides behind the platform UI) and the
+   recommended length.
+3. **Pick a length** — 7s / 15s / 22s / 30s (platform sweet spots; more slides
+   on longer clips).
+4. **Pick a caption style** — *Karaoke* (current word highlighted), *Word pop*
+   (words appear one-by-one), or *Block* — animated text holds attention.
+5. **Pick a vibe** — background + brand-blue accent. Backgrounds:
    - **Clean gradient** — premium brand mesh (Apple / Stripe / Linear feel)
    - **Floating UI** — drifting website/app mockups (on-brand for a web studio)
    - **Satisfying slice** — ASMR engagement bait
    - **Blocky parkour** — gameplay-style scroll bait
-4. **Edit the captions** freely (one slide per block, blank line between slides,
-   `>` = testimonial quote, `@` = name).
-5. **Export**:
+6. **Edit the captions** freely. Blank line = new slide. First slide is the
+   **hook**. Markers: `>` = testimonial quote, `@` = name, `!` = CTA button.
+7. **Export**:
    - **Export this clip** — current topic at current length
-   - **All 4 lengths** — 3/6/9/12s of the current topic
+   - **All 4 lengths** — 7/15/22/30s of the current topic
    - **Every topic** — one clip per topic + the all-services showcase
 
 Clips export **silent on purpose** — add a trending sound inside the app when
 you post (native audio is what the algorithm rewards).
+
+## Why these videos are built to convert
+
+Every preset follows the structure that performs on short-form, backed by
+current platform data:
+
+- **Hook in frame 1** — 50–60% of viewers drop in the first 3 seconds and ~87%
+  decide whether to keep watching in that window. Slide 1 is an oversized,
+  sound-off-readable hook (≤7 words).
+- **Platform-aware safe zones** — TikTok, Reels and Shorts each hide parts of
+  the 1080×1920 frame behind their UI (action buttons, captions, audio bar,
+  subscribe button). All text and the CTA stay inside the selected platform's
+  safe box; a preview-only overlay shows you exactly where.
+- **Animated, high-contrast captions** — ~80% of people watch muted, so the
+  message lives in the text. Word-by-word reveal with an accent-highlighted
+  active word on a dark pill boosts retention and comprehension.
+- **One comment-bait CTA** — the last slide is a single high-contrast button
+  ("Comment WEBSITE", "DM us SITE"…). Comment prompts feed the algorithm and
+  CTAs lift click-through dramatically. Keep it to one ask.
+- **Pacing & motion** — one idea per slide, a story-style progress bar, and a
+  subtle background punch-in keep visual interest resetting.
+- **Length sweet spots** — 7s (Reels-viral) · 15s · 22s (TikTok) · 30s (Shorts).
+
+> No tool can *guarantee* a conversion rate — that depends on your offer,
+> audience and consistency. What this does is remove every structural reason a
+> good clip underperforms (weak hook, hidden text, no captions, buried CTA).
 
 ## Brand guardrails baked in
 

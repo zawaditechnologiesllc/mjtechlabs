@@ -103,15 +103,23 @@
     <section class="panel">
       <h2>1 · What to make</h2>
       <div class="field">
-        <label for="tool">Topic</label>
+        <label for="tool">Topic <span class="hint">— hook → value → proof → CTA</span></label>
         <select id="tool"></select>
       </div>
       <div class="field">
-        <label>Clip length <span class="hint">— more slides on longer clips</span></label>
+        <label>Platform <span class="hint">— sets safe zones &amp; length</span></label>
+        <div class="seg" id="plats"></div>
+      </div>
+      <div class="field">
+        <label>Clip length <span class="hint">— pick the platform sweet spot</span></label>
         <div class="seg" id="durs"></div>
       </div>
 
       <h2 style="margin-top:26px">2 · Vibe</h2>
+      <div class="field">
+        <label>Caption style <span class="hint">— animated text holds attention</span></label>
+        <div class="seg" id="capstyles"></div>
+      </div>
       <div class="field">
         <label>Background <span class="hint">— scroll-stopping, not an ad</span></label>
         <div class="seg" id="bgs"></div>
@@ -120,12 +128,13 @@
         <label>Accent <span class="hint">— brand blues</span></label>
         <div class="swatches" id="swatches"></div>
       </div>
+      <label class="check"><input type="checkbox" id="safe" checked> Show platform <b style="color:#7dd3fc">safe zones</b> <span class="hint">(preview only)</span></label>
       <label class="check"><input type="checkbox" id="brand" checked> Show <code style="font-size:11px">mjtechlabs.com</code> chip</label>
       <label class="check"><input type="checkbox" id="progress" checked> Story-style progress bar</label>
 
       <h2 style="margin-top:26px">3 · Captions <span class="hint" style="text-transform:none;letter-spacing:0">(edit freely)</span></h2>
       <div class="field">
-        <label for="deck">One slide per block · blank line between slides · <code style="font-size:11px">&gt;</code> = quote, <code style="font-size:11px">@</code> = name</label>
+        <label for="deck">Blank line = new slide · 1st slide = <b style="color:#cfe0ff">hook</b> · <code style="font-size:11px">&gt;</code> quote, <code style="font-size:11px">@</code> name, <code style="font-size:11px">!</code> CTA button</label>
         <textarea id="deck" spellcheck="false"></textarea>
       </div>
     </section>
@@ -150,9 +159,9 @@
   </main>
 
   <footer>
-    <b style="color:#cfe0ff">How it works:</b> pick a topic, a length and a background, tweak the captions, then export.
-    <b>Export this clip</b> = the current topic at the current length. <b>All 4 lengths</b> = 3s/6s/9s/12s of the current topic.
-    <b>Every topic</b> = one clip per topic plus the “all services” showcase, at the current length — exactly what you’d batch-schedule across TikTok, Instagram and YouTube Shorts.
+    <b style="color:#cfe0ff">Built to convert:</b> every clip is a <b>hook → value → proof → CTA</b> story. The first slide is an oversized <b>hook</b> (decides 87% of viewers in 3s), captions animate <b>word-by-word</b> (80% watch muted), all text stays inside the <b>platform safe zone</b>, and the last slide is a single <b>comment-bait CTA</b> button (CTAs lift click-through ~380%). Pick the <b>Platform</b> to set the right safe zone &amp; length, choose a caption style, tweak the copy, then export.
+    <b>Export this clip</b> = the current topic at the current length. <b>All 4 lengths</b> = 7s/15s/22s/30s of the current topic.
+    <b>Every topic</b> = one clip per topic plus the “all services” showcase, at the current length — exactly what you’d batch-schedule across TikTok, Instagram and YouTube Shorts. Replace the placeholder testimonials with real client quotes before posting.
     Clips export as a standard <b>H.264 <code>.mp4</code></b> — exactly what TikTok, Instagram Reels and YouTube Shorts accept and play directly, <b>no conversion</b>. Encoding runs entirely in your browser: desktop <b>Chrome / Edge</b> use fast hardware <b>WebCodecs</b> (with faststart — <code>moov</code> atom at the front); every other browser falls back to a built-in <b>WASM H.264 encoder</b>, which is slower but still produces a TikTok-ready MP4. Nothing is uploaded.
     <div class="sig">MJTECHLABS · Premium websites that grow Kenyan businesses · WhatsApp <b>+254 715 432 303</b> · <b>WE GET WHAT WE GIVE</b></div>
   </footer>
@@ -197,37 +206,42 @@ var g=Q(2),I=g.Buffer;function E(A,B){for(var Q in A)B[Q]=A[Q]}function i(A,B,Q)
   var HAS_WC   = (typeof window.VideoEncoder==="function" && typeof window.VideoFrame==="function" && !!window.Mp4Muxer);
   var HAS_WASM = (!!window.HME && typeof window.HME.createH264MP4Encoder==="function");
 
-  /* ───────────────────────── topic caption presets ──────────────────────── */
+  /* ───────────────────────── topic caption presets ──────────────────────────
+     Each deck is built for retention: HOOK (slide 1, ≤7 words, reads in <2s) →
+     value beats (one idea each) → social proof (> quote) → ONE CTA end-card
+     (! line = button, comment-bait). Blank line separates slides.
+       >  = testimonial quote     @  = name
+       !  = CTA button (the line above it = setup, the line below = link)      */
   var TOOLS = [
-    { key:"whatsapp", label:"Your WhatsApp Is Not A Website", deck:
-"your WhatsApp is not a website 📱\n\nit closes when you sleep.\nyour website sells at 3am.\n\ncustomers Google you before they trust you.\nwhat do they find?\n\n> we went from 'DM for price' to real online orders\n@ Brian · Hardware store, Nairobi\n\na website that works while you rest\nmjtechlabs.com" },
+    { key:"whatsapp", label:"Hook · WhatsApp ≠ Website", deck:
+"your WhatsApp is\nnot a website 📱\n\nit closes when you sleep.\nyour website sells at 3am.\n\ncustomers Google you\nbefore they trust you.\n\n> we went from \"DM for price\" to real online orders\n@ Brian · Hardware store, Nairobi\n\nget a free website audit 👇\n! Comment \"WEBSITE\"\nmjtechlabs.com" },
 
-    { key:"invisible", label:"Found On Google", deck:
-"if your business vanished tomorrow,\nwould Google even notice? 🔍\n\nno website means you don't exist online.\nyour competitor does.\n\npeople don't call a business\nthey can't find.\n\nget found on Google first\nmjtechlabs.com" },
+    { key:"invisible", label:"Hook · Found On Google", deck:
+"if your business vanished,\nwould Google notice? 🔍\n\nno website = you don't\nexist online. your rival does.\n\npeople don't call\na business they can't find.\n\n> clients started finding us on Google\n@ Aisha · Fashion store\n\nsee if customers can find you 👇\n! Comment \"RANK\"\nmjtechlabs.com" },
 
-    { key:"competitor", label:"Your Competitor Took Your Customer", deck:
-"your competitor just took your customer 😬\n\nsame product. same price.\nthey just looked more professional.\n\na buyer picked them because\nthey could find them online.\n\n> our website made us the obvious choice\n@ Aisha · Fashion store\n\nbecome the easy yes\nmjtechlabs.com" },
+    { key:"competitor", label:"Hook · Competitor Took Your Customer", deck:
+"your competitor just took\nyour customer 😬\n\nsame product. same price.\nthey just looked more pro.\n\na buyer trusts who looks\ntrustworthy at a glance.\n\n> our new site made us the obvious choice\n@ Kevin · Supermarket\n\nsee your free redesign 👇\n! DM us \"SITE\"\nmjtechlabs.com" },
 
-    { key:"facebook", label:"The Expensive Mistake", deck:
-"the mistake costing Kenyan businesses millions 💸\n\na Facebook page is not a website.\nyou don't own it. you can't rank it.\n\none algorithm change\nand your reach is gone.\n\nown your online home\nmjtechlabs.com" },
+    { key:"facebook", label:"Hook · The Expensive Mistake", deck:
+"a Facebook page is\nnot a website 💸\n\nyou don't own it.\nyou can't rank it on Google.\n\none algorithm change\nand your reach is gone.\n\nbook a free strategy call 👇\n! Comment \"OWN\"\nmjtechlabs.com" },
 
-    { key:"beforeafter", label:"Before vs After", deck:
-"before: 'send me your price list' 🙄\nafter: customers order while you sleep 🛒\n\na real website does the selling for you,\n24 hours a day.\n\n> sales stopped slowing down at night\n@ Mercy · Online shop\n\nfrom endless DMs to real orders\nmjtechlabs.com" },
+    { key:"beforeafter", label:"Hook · Before vs After", deck:
+"before: \"send me\nyour price list\" 🙄\n\nafter: orders come in\nwhile you sleep 🛒\n\na real website sells for you,\n24 hours a day.\n\n> sales stopped slowing down at night\n@ Mercy · Online shop\n\nget your free mockup 👇\n! Comment \"AFTER\"\nmjtechlabs.com" },
 
-    { key:"ecommerce", label:"Sell Online · M-Pesa", deck:
-"sell online. get paid on M-Pesa. 💳\n\ncustomers pay before they collect.\nno more 'I'll send it later'.\n\ninventory, orders and payments,\nhandled automatically.\n\n> M-Pesa checkout changed everything for us\n@ Kevin · Supermarket\n\nyour shop, open 24/7\nmjtechlabs.com" },
+    { key:"ecommerce", label:"Hook · Sell Online · M-Pesa", deck:
+"sell online.\nget paid on M-Pesa. 💳\n\ncustomers pay\nbefore they collect.\n\ninventory, orders & payments —\nall automated.\n\n> M-Pesa checkout changed everything\n@ Faith · Cosmetics shop\n\nopen your online shop 👇\n! Comment \"SHOP\"\nmjtechlabs.com" },
 
-    { key:"booking", label:"Booking Systems", deck:
-"stop losing bookings in your DMs 📅\n\nclients book themselves, anytime.\nyou just show up.\n\nsalons · clinics · Airbnbs · consultants\n\n> my calendar fills itself now\n@ Joy · Salon owner\n\nbookings on autopilot\nmjtechlabs.com" },
+    { key:"booking", label:"Hook · Booking Systems", deck:
+"stop losing bookings\nin your DMs 📅\n\nclients book themselves,\nanytime. you just show up.\n\nsalons · clinics · Airbnbs · consultants\n\n> my calendar fills itself now\n@ Joy · Salon owner\n\nget a free demo 👇\n! Comment \"BOOK\"\nmjtechlabs.com" },
 
-    { key:"seo", label:"Your Business Isn't Bad, It's Invisible", deck:
-"your business isn't bad.\nit's just invisible 👻\n\nnobody can buy what they can't find.\nSEO puts you on page one.\n\nshow up the moment\na customer searches.\n\nget found first\nmjtechlabs.com" },
+    { key:"seo", label:"Hook · Invisible, Not Bad", deck:
+"your business isn't bad.\nit's just invisible 👻\n\nnobody can buy\nwhat they can't find.\n\nSEO puts you on page one\nthe moment they search.\n\nget a free SEO audit 👇\n! Comment \"SEO\"\nmjtechlabs.com" },
 
-    { key:"pricing", label:"Pricing & Plans", deck:
-"a professional website from KSh 65,000 💼\n\nStarter · KSh 65,000\ncustom design · free hosting · 4 emails\n\nBusiness Pro · KSh 95,000\nbookings · CRM · advanced SEO\n\nPremium E-Commerce · KSh 125,000\nM-Pesa · card payments · online store\n\nyour business, online for good\nmjtechlabs.com" },
+    { key:"pricing", label:"Offer · Pricing & Plans", deck:
+"a pro website\nfrom KSh 65,000 💼\n\nStarter — 65K\ndesign · hosting · 4 emails\n\nBusiness Pro — 95K\nbookings · CRM · advanced SEO\n\nE-Commerce — 125K\nM-Pesa · cards · online store\n\nnot sure which plan? 👇\n! Comment \"PLAN\"\nmjtechlabs.com" },
 
-    { key:"all", label:"All services (showcase)", deck:
-"everything your business needs online ⚡\n\n🌐 business & e-commerce sites\n📅 booking systems\n💳 M-Pesa & card payments\n\n🔍 SEO that gets you found\n🤖 business automation\n📱 mobile-first design\n\n> one team handled our whole online presence\n@ James · Real estate\n\nwe don't sell websites. we grow businesses.\nmjtechlabs.com" }
+    { key:"all", label:"Showcase · All Services", deck:
+"everything your business\nneeds online ⚡\n\n🌐 websites & online shops\n📅 booking systems\n💳 M-Pesa & card payments\n\n🔍 SEO · 🤖 automation\n📱 mobile-first design\n\n> one team ran our whole online presence\n@ James · Real estate\n\nlet's grow your business 👇\n! Comment \"GROW\"\nmjtechlabs.com" }
   ];
 
   /* ───────────────────────────── themes (accent only) ───────────────────── */
@@ -246,10 +260,32 @@ var g=Q(2),I=g.Buffer;function E(A,B){for(var Q in A)B[Q]=A[Q]}function i(A,B,Q)
     { key:"minecraft", label:"Blocky parkour" }
   ];
 
-  var DURS = [3,6,9,12];
-  var COUNTS = { 3:2, 6:3, 9:4, 12:5 };   // slides shown per length
+  // Length sweet spots (research): Reels-viral ~7s, Reels/short-TikTok ~15s,
+  // TikTok ~22s, Shorts ~30s. Longer clips show more beats.
+  var DURS = [7,15,22,30];
+  var COUNTS = { 7:3, 15:4, 22:5, 30:6 };   // slides shown per length
 
-  var state = { tool:"whatsapp", dur:6, bg:"gradient", theme:"electric", brand:true, progress:true };
+  /* ─── platform safe zones (px, in the 1080×1920 frame) ───────────────────────
+     UI overlays hide parts of the frame. We keep ALL text/CTA inside each
+     platform's safe box. Insets are deliberately conservative (late-2025/2026
+     UI: bigger audio bars, Shorts subscribe button, TikTok playlist button). */
+  var PLATFORMS = {
+    tiktok: { label:"TikTok", dur:22, safe:{ top:140, right:170, bottom:500, left:64 } },
+    reels:  { label:"Reels",  dur:15, safe:{ top:220, right:180, bottom:520, left:64 } },
+    shorts: { label:"Shorts", dur:30, safe:{ top:130, right:170, bottom:560, left:64 } },
+    all:    { label:"All 3",  dur:22, safe:{ top:230, right:190, bottom:560, left:72 } }
+  };
+
+  // Caption animation styles (research: word-by-word + active-word highlight
+  // boosts retention; 80% watch muted, so captions carry the message).
+  var CAP_STYLES = [
+    { key:"karaoke", label:"Karaoke" },   // all words shown, current word highlighted
+    { key:"pop",     label:"Word pop" },  // words appear one-by-one
+    { key:"block",   label:"Block" }      // whole phrase at once
+  ];
+
+  var state = { tool:"whatsapp", platform:"tiktok", dur:22, bg:"gradient", theme:"electric",
+                cap:"karaoke", brand:true, progress:true, safe:true };
 
   var canvas = $("stage"), ctx = canvas.getContext("2d", { willReadFrequently:true });
   var show = null;            // current {slides, per, total}
@@ -265,6 +301,7 @@ var g=Q(2),I=g.Buffer;function E(A,B){for(var Q in A)B[Q]=A[Q]}function i(A,B,Q)
     blocks.forEach(function(b){
       var lines = b.split("\n").map(function(s){ return s.trim(); }).filter(Boolean);
       if(!lines.length) return;
+      var hasCTA = lines.some(function(l){ return l.charAt(0)==="!"; });
       if(lines[0].charAt(0) === ">"){
         var who = "", quote = [];
         lines.forEach(function(l){
@@ -272,13 +309,22 @@ var g=Q(2),I=g.Buffer;function E(A,B){for(var Q in A)B[Q]=A[Q]}function i(A,B,Q)
           else quote.push(l.replace(/^>\s?/,""));
         });
         deck.push({ kind:"quote", text:quote.join(" "), who:who });
+      } else if(hasCTA){
+        var head=[], btn="", foot=[], seen=false;
+        lines.forEach(function(l){
+          if(l.charAt(0)==="!"){ btn=l.slice(1).trim(); seen=true; }
+          else if(!seen) head.push(l);
+          else foot.push(l);
+        });
+        deck.push({ kind:"cta", head:head.join(" "), btn:btn, foot:foot.join(" ") });
       } else {
-        deck.push({ kind:"text", big:lines[0], sub:lines.slice(1) });
+        deck.push({ kind:"text", text:lines.join(" "), lines:lines });
       }
     });
-    return deck.length ? deck : [{ kind:"text", big:"Your text here", sub:[] }];
+    return deck.length ? deck : [{ kind:"text", text:"Your hook here", lines:["Your hook here"] }];
   }
 
+  // Always keep the HOOK (first) and CTA (last) — they carry retention + action.
   function chooseSlides(deck, count){
     count = Math.max(2, Math.min(count, deck.length));
     if(count >= deck.length) return deck.slice();
@@ -290,11 +336,19 @@ var g=Q(2),I=g.Buffer;function E(A,B){for(var Q in A)B[Q]=A[Q]}function i(A,B,Q)
 
   function buildShowFromText(text, dur){
     var deck = parseDeck(text);
-    var count = COUNTS[dur] || Math.max(2, Math.round(dur/2.1));
+    var count = COUNTS[dur] || Math.max(2, Math.round(dur/3));
     var slides = chooseSlides(deck, count);
+    if(slides[0]) slides[0].hook = true;     // first slide = oversized hook
     return { slides:slides, per:(dur*1000)/slides.length, total:dur*1000 };
   }
   function rebuildShow(){ show = buildShowFromText($("deck").value, state.dur); }
+
+  // Safe content box for the current platform (everything important lives here).
+  function safeBox(){
+    var s = (PLATFORMS[state.platform]||PLATFORMS.all).safe;
+    var x = s.left, w = W - s.left - s.right, top = s.top, bot = H - s.bottom;
+    return { x:x, w:w, top:top, bot:bot, h:bot-top, cx:x + w/2, midY:(top+bot)/2, bottomY:bot };
+  }
 
   /* ───────────────────────────── text helpers ───────────────────────────── */
   function wrapLines(text, maxW, fs, weight){
@@ -470,62 +524,192 @@ var g=Q(2),I=g.Buffer;function E(A,B){for(var Q in A)B[Q]=A[Q]}function i(A,B,Q)
   }
 
   /* ───────────────────────────── slide overlay ──────────────────────────── */
-  function drawSlide(s, th, alpha, rise){
-    ctx.save();
-    ctx.globalAlpha = alpha;
-    ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
-    var cx = W/2, anchor = H*0.60 - rise;
-
-    if(s.kind === "quote"){
-      // stars
-      var R=W*0.024, gap=R*0.85, total=5*(2*R)+4*gap, sx=cx-total/2+R, sy=anchor-H*0.16;
-      for(var i=0;i<5;i++){ drawStar(sx+i*(2*R+gap), sy, R, th.star); }
-      var f = fitText('“'+s.text+'”', W*0.82, Math.round(W*0.070), Math.round(W*0.044), "600", 5);
-      ctx.font = "600 "+f.fs+"px "+FAM; ctx.fillStyle = "#ffffff";
-      var lh = f.fs*1.28, y = anchor - (f.lines.length-1)*lh/2;
-      for(var j=0;j<f.lines.length;j++) shadowText(f.lines[j], cx, y+j*lh);
-      if(s.who){
-        ctx.font = "600 "+Math.round(W*0.034)+"px "+FAM; ctx.fillStyle = th.accent2;
-        shadowText("— "+s.who, cx, y + f.lines.length*lh + W*0.02);
-      }
-    } else {
-      var bf = fitText(s.big, W*0.86, Math.round(W*0.092), Math.round(W*0.05), "800", 4);
-      ctx.font = "800 "+bf.fs+"px "+FAM; ctx.fillStyle = "#ffffff";
-      var blh = bf.fs*1.14;
-      var subCount = 0, k;
-      if(s.sub) for(k=0;k<s.sub.length;k++) subCount += wrapLines(s.sub[k], W*0.80, Math.round(W*0.042), "500").length;
-      var blockH = bf.lines.length*blh + subCount*W*0.054;
-      var y = anchor - blockH/2 + bf.fs;
-      for(k=0;k<bf.lines.length;k++){ shadowText(bf.lines[k], cx, y); y += blh; }
-      if(s.sub && s.sub.length){
-        y += W*0.012;
-        ctx.fillStyle = "rgba(235,240,250,.94)";
-        for(k=0;k<s.sub.length;k++){
-          var wl = wrapLines(s.sub[k], W*0.80, Math.round(W*0.042), "500");
-          ctx.font = "500 "+Math.round(W*0.042)+"px "+FAM;
-          for(var m=0;m<wl.length;m++){ shadowText(wl[m], cx, y); y += W*0.054; }
+  // wrap authored phrase-lines into positioned visual lines at a shared font size
+  function layoutCaption(lines, maxW, maxFs, minFs, maxLines){
+    var fs, vis, gi;
+    for(fs=maxFs; fs>=minFs; fs-=4){
+      ctx.font = "800 "+fs+"px "+FAM;
+      var spaceW = ctx.measureText(" ").width; vis=[]; gi=0; var fits=true;
+      for(var li=0; li<lines.length; li++){
+        var words = String(lines[li]).split(/\s+/).filter(Boolean);
+        var cur=[], curW=0;
+        for(var wi=0; wi<words.length; wi++){
+          var ww = ctx.measureText(words[wi]).width; if(ww>maxW) fits=false;
+          var add = (cur.length?spaceW:0)+ww;
+          if(curW+add>maxW && cur.length){ vis.push({words:cur,width:curW}); cur=[]; curW=0; add=ww; }
+          cur.push({ t:words[wi], w:ww, gi:gi++ }); curW+=add;
         }
+        if(cur.length) vis.push({ words:cur, width:curW });
+      }
+      if((vis.length<=maxLines && fits) || fs<=minFs) break;
+    }
+    return { fs:fs, lh:Math.round(fs*1.18), lines:vis, count:gi, spaceW:ctx.measureText(" ").width };
+  }
+
+  function hiColor(th){ return state.theme==="mono" ? th.star : th.accent; }
+
+  function fillShadow(str,x,y){
+    ctx.shadowColor="rgba(0,0,0,.6)"; ctx.shadowBlur=Math.round(W*0.014); ctx.shadowOffsetY=2;
+    ctx.fillText(str,x,y);
+    ctx.shadowColor="transparent"; ctx.shadowBlur=0; ctx.shadowOffsetY=0;
+  }
+
+  // animated, high-contrast caption (karaoke / word-pop / block) on a dark pill
+  function drawCaption(s, th, sb, lt){
+    var emphasis = !!s.hook;
+    var maxW = sb.w*0.97;
+    var lay = layoutCaption(s.lines, maxW,
+                Math.round(W*(emphasis?0.118:0.088)), Math.round(W*0.05),
+                emphasis?4:5);
+    var fs=lay.fs, lh=lay.lh, hi=hiColor(th);
+    var blockH = lay.lines.length*lh;
+    var topY = Math.max(sb.top + lh*0.6, sb.midY - blockH/2);  // centred in safe area
+    // reveal progress across all words (block = all at once)
+    var revF = state.cap==="block" ? lay.count : Math.max(0, Math.min(lay.count, (lt/0.66)*lay.count));
+    var ai = revF>=lay.count ? lay.count-1 : Math.floor(revF);
+
+    ctx.font = "800 "+fs+"px "+FAM; ctx.textBaseline="middle";
+    for(var li=0; li<lay.lines.length; li++){
+      var ln=lay.lines[li], cyL=topY + li*lh + lh/2;
+      // pill behind the line
+      var padX=fs*0.34, ph=fs*1.16, pw=ln.width+padX*2, px=sb.cx-pw/2, py=cyL-ph/2;
+      ctx.fillStyle="rgba(7,12,22,.5)"; roundRect(px,py,pw,ph,ph*0.32); ctx.fill();
+      // words
+      ctx.textAlign="left";
+      var startX = sb.cx - ln.width/2;
+      for(var wi=0; wi<ln.words.length; wi++){
+        var wd=ln.words[wi], passed=revF-wd.gi, hidden=false, col="#fff", a=1, yLift=0;
+        if(state.cap==="pop"){
+          if(passed<=0){ hidden=true; }
+          else { a=Math.min(1,passed/0.5); yLift=(1-a)*fs*0.28; col=(wd.gi===ai)?hi:"#fff"; }
+        } else if(state.cap==="karaoke"){
+          if(passed<=0){ col="rgba(255,255,255,.32)"; }
+          else { col=(wd.gi===ai)?hi:"#fff"; }
+        } // block: defaults (all white)
+        if(!hidden){
+          ctx.globalAlpha = a*ctx.globalAlpha; var ga=ctx.globalAlpha;
+          ctx.fillStyle=col; fillShadow(wd.t, startX, cyL-yLift);
+          ctx.globalAlpha = ga/(a||1);
+        }
+        startX += wd.w + lay.spaceW;
       }
     }
+    ctx.textAlign="left"; ctx.textBaseline="alphabetic";
+  }
+
+  function drawQuote(s, th, sb, lt){
+    var cx=sb.cx;
+    var lay = layoutCaption([ '"'+s.text+'"' ], sb.w*0.94, Math.round(W*0.072), Math.round(W*0.044), 5);
+    var blockH = lay.lines.length*lay.lh;
+    var top = sb.midY - blockH/2;
+    // stars above
+    var R=W*0.026, gap=R*0.8, totalW=5*(2*R)+4*gap, sx=cx-totalW/2+R, sy=top - W*0.07;
+    for(var i=0;i<5;i++){ drawStar(sx+i*(2*R+gap), sy, R, th.star); }
+    var revF = Math.max(0, Math.min(lay.count, (lt/0.6)*lay.count));
+    ctx.font="700 "+lay.fs+"px "+FAM; ctx.textBaseline="middle";
+    for(var li=0; li<lay.lines.length; li++){
+      var ln=lay.lines[li], cyL=top+li*lay.lh+lay.lh/2, startX=cx-ln.width/2;
+      ctx.textAlign="left";
+      for(var wi=0; wi<ln.words.length; wi++){
+        var wd=ln.words[wi];
+        ctx.fillStyle = (revF>=wd.gi)? "#ffffff" : "rgba(255,255,255,.34)";
+        fillShadow(wd.t, startX, cyL); startX += wd.w + lay.spaceW;
+      }
+    }
+    if(s.who){
+      ctx.font="700 "+Math.round(W*0.034)+"px "+FAM; ctx.fillStyle=th.accent2; ctx.textAlign="center";
+      fillShadow("— "+s.who, cx, top+blockH+W*0.03);
+    }
+    ctx.textAlign="left"; ctx.textBaseline="alphabetic";
+  }
+
+  // CTA end-card: setup line → accent button (comment-bait) → link
+  function drawCTA(s, th, sb, lt){
+    var cx=sb.cx;
+    var headLay = s.head ? layoutCaption([s.head], sb.w*0.96, Math.round(W*0.066), Math.round(W*0.046), 3) : null;
+    var bfs=Math.round(W*0.054), minBfs=Math.round(W*0.034), maxBW=sb.w*0.98;
+    var label=s.btn||"Comment below";
+    ctx.font="800 "+bfs+"px "+FAM;
+    while(ctx.measureText(label).width + bfs*2.0 > maxBW && bfs>minBfs){ bfs-=2; ctx.font="800 "+bfs+"px "+FAM; }
+    var tw=ctx.measureText(label).width, padX=bfs*1.0, bh=bfs*2.0, bw=Math.min(maxBW, tw+padX*2);
+    var ffs=Math.round(W*0.036);
+    var gap1=W*0.05, gap2=W*0.045;
+    var headH = headLay ? headLay.lines.length*headLay.lh : 0;
+    var footH = s.foot ? ffs : 0;
+    var totalH = headH + (headH?gap1:0) + bh + (footH?gap2+footH:0);
+    var y = sb.midY - totalH/2;
+
+    // setup line(s)
+    if(headLay){
+      ctx.font="800 "+headLay.fs+"px "+FAM; ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.textBaseline="middle";
+      for(var li=0; li<headLay.lines.length; li++){
+        var ln=headLay.lines[li];
+        fillShadow(ln.words.map(function(w){return w.t;}).join(" "), cx, y+li*headLay.lh+headLay.lh/2);
+      }
+      y += headH + gap1;
+    }
+    // button (subtle pulse)
+    var pulse = 1 + 0.022*Math.sin(lt*Math.PI*6);
+    var bx=cx-bw/2, by=y, pw=bw*pulse, px=cx-pw/2, ph=bh*pulse, pyB=by+(bh-ph)/2;
+    ctx.save();
+    var grad=ctx.createLinearGradient(px,0,px+pw,0); grad.addColorStop(0,th.accent2); grad.addColorStop(1,th.accent);
+    ctx.shadowColor=hexA(th.accent,0.5); ctx.shadowBlur=W*0.05; ctx.shadowOffsetY=W*0.012;
+    ctx.fillStyle=grad; roundRect(px,pyB,pw,ph,ph/2); ctx.fill();
+    ctx.restore();
+    ctx.font="800 "+Math.round(bfs*pulse)+"px "+FAM; ctx.fillStyle=(state.theme==="mono"?"#081120":"#ffffff");
+    ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText(label, cx, by+bh/2+1);
+    y += bh;
+    // link/foot
+    if(s.foot){
+      y += gap2;
+      ctx.font="700 "+ffs+"px "+FAM; ctx.fillStyle=th.accent2;
+      fillShadow(s.foot, cx, y+ffs/2);
+    }
+    ctx.textAlign="left"; ctx.textBaseline="alphabetic";
+  }
+
+  function drawSlide(s, th, sb, lt, alpha, rise){
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(0, rise);
+    if(s.kind === "cta")        drawCTA(s, th, sb, lt);
+    else if(s.kind === "quote") drawQuote(s, th, sb, lt);
+    else                        drawCaption(s, th, sb, lt);
     ctx.restore();
   }
 
-  function drawProgress(th, idx, lt, n){
-    var m=W*0.06, gap=10, top=H*0.035, h=8;
-    var seg=(W-2*m-(n-1)*gap)/n;
+  function drawProgress(th, idx, lt, n, sb){
+    var m=sb.x, gap=8, h=7, top=Math.max(34, sb.top - W*0.032);
+    var seg=(sb.w-(n-1)*gap)/n;
     for(var i=0;i<n;i++){
       var x=m+i*(seg+gap);
-      ctx.fillStyle="rgba(255,255,255,.28)"; roundRect(x,top,seg,h,h/2); ctx.fill();
+      ctx.fillStyle="rgba(255,255,255,.30)"; roundRect(x,top,seg,h,h/2); ctx.fill();
       var f = i<idx ? 1 : (i===idx ? lt : 0);
       if(f>0){ ctx.fillStyle="#fff"; roundRect(x,top,seg*f,h,h/2); ctx.fill(); }
     }
   }
 
-  function drawBrand(th, alpha){
+  // preview-only platform safe-zone guide (never burned into exports)
+  function drawSafeZones(sb){
+    ctx.save();
+    ctx.fillStyle="rgba(239,68,68,.13)";
+    ctx.fillRect(0,0,W,sb.top);
+    ctx.fillRect(0,sb.bottomY,W,H-sb.bottomY);
+    ctx.fillRect(0,sb.top,sb.x,sb.bottomY-sb.top);
+    ctx.fillRect(sb.x+sb.w,sb.top,W-(sb.x+sb.w),sb.bottomY-sb.top);
+    ctx.strokeStyle="rgba(56,189,248,.75)"; ctx.lineWidth=3; ctx.setLineDash([16,12]);
+    ctx.strokeRect(sb.x,sb.top,sb.w,sb.bottomY-sb.top); ctx.setLineDash([]);
+    ctx.fillStyle="rgba(125,211,252,.95)"; ctx.font="600 "+Math.round(W*0.026)+"px "+FAM; ctx.textAlign="left";
+    ctx.fillText((PLATFORMS[state.platform]||{label:""}).label+" safe zone — preview only", sb.x+12, sb.top+Math.round(W*0.045));
+    ctx.restore(); ctx.textAlign="left";
+  }
+
+  function drawBrand(th, alpha, sb){
     var label=DOMAIN, fs=Math.round(W*0.030);
     ctx.font="700 "+fs+"px "+FAM;
     var tw=ctx.measureText(label).width, mark=fs*1.25, padX=fs*0.7;
-    var pw=tw+mark+padX*2+fs*0.32, ph=fs*2, px=W/2-pw/2, py=H-ph-H*0.045;
+    var pw=tw+mark+padX*2+fs*0.32, ph=fs*2, px=W/2-pw/2, py=sb.bottomY-ph-W*0.02;
     ctx.save(); ctx.globalAlpha=0.92*(alpha*0.4+0.6);
     ctx.fillStyle="rgba(6,12,24,.55)"; roundRect(px,py,pw,ph,ph/2); ctx.fill();
     ctx.strokeStyle=hexA(th.accent2,0.45); ctx.lineWidth=2; roundRect(px,py,pw,ph,ph/2); ctx.stroke();
@@ -546,26 +730,33 @@ var g=Q(2),I=g.Buffer;function E(A,B){for(var Q in A)B[Q]=A[Q]}function i(A,B,Q)
 
   /* ───────────────────────────── frame compositor ───────────────────────── */
   function render(slideT, bgT, sh){
-    var th = THEMES[state.theme];
+    var th = THEMES[state.theme], sb = safeBox();
     ctx.clearRect(0,0,W,H);
+    // subtle background punch-in (breathing zoom) for motion
+    var pz = 1.0 + 0.035*(0.5+0.5*Math.sin(bgT/3800));
+    ctx.save(); ctx.translate(W/2,H/2); ctx.scale(pz,pz); ctx.translate(-W/2,-H/2);
     drawBackground(state.bg, bgT, th);
-    // bottom scrim for legibility
-    var sc = ctx.createLinearGradient(0,H*0.30,0,H);
-    sc.addColorStop(0,"rgba(3,6,12,0)"); sc.addColorStop(0.5,"rgba(3,6,12,.50)"); sc.addColorStop(1,"rgba(3,6,12,.84)");
+    ctx.restore();
+    // legibility scrims (top for progress, bottom for caption/CTA/brand)
+    var sc = ctx.createLinearGradient(0,0,0,H);
+    sc.addColorStop(0,"rgba(3,6,12,.45)"); sc.addColorStop(0.22,"rgba(3,6,12,.12)");
+    sc.addColorStop(0.58,"rgba(3,6,12,.30)"); sc.addColorStop(1,"rgba(3,6,12,.82)");
     ctx.fillStyle = sc; ctx.fillRect(0,0,W,H);
 
     if(slideT < 0) slideT = 0;
     var slides = sh.slides, per = sh.per, n = slides.length;
     var idx = Math.max(0, Math.min(Math.floor(slideT/per), n-1));
     var lt = (slideT - idx*per)/per;                  // 0..1 within slide
-    var appear = Math.min(1, lt/0.22);
-    var disappear = 1 - Math.max(0, (lt-0.82)/0.18);
+    var appear = Math.min(1, lt/0.18);
+    var disappear = 1 - Math.max(0, (lt-0.86)/0.14);
     var alpha = Math.max(0, Math.min(appear, disappear));
-    var rise = (1-appear)*44;
+    var rise = (1-appear)*W*0.045;
+    var cur = slides[idx];
 
-    drawSlide(slides[idx], th, alpha, rise);
-    if(state.progress) drawProgress(th, idx, lt, n);
-    if(state.brand)    drawBrand(th, alpha);
+    drawSlide(cur, th, sb, lt, alpha, rise);
+    if(state.progress) drawProgress(th, idx, lt, n, sb);
+    if(state.brand && cur.kind!=="cta") drawBrand(th, alpha, sb);
+    if(state.safe && !recording) drawSafeZones(sb);   // preview guide, not exported
   }
 
   /* ───────────────────────────── tiny canvas utils ──────────────────────── */
@@ -779,14 +970,45 @@ var g=Q(2),I=g.Buffer;function E(A,B){for(var Q in A)B[Q]=A[Q]}function i(A,B,Q)
     });
   })();
 
-  // durations
+  // durations (also settable programmatically when the platform changes)
+  var durBtns={};
+  function setDur(d){
+    state.dur=d;
+    Object.keys(durBtns).forEach(function(k){ durBtns[k].className=(+k===d?"sel":""); });
+    rebuildShow();
+  }
   (function(){
     var box=$("durs");
     DURS.forEach(function(d){
       var b=document.createElement("button"); b.type="button"; b.textContent=d+"s";
       b.className=(d===state.dur?"sel":"");
+      b.addEventListener("click", function(){ setDur(d); });
+      durBtns[d]=b; box.appendChild(b);
+    });
+  })();
+
+  // platform → safe zone + recommended length
+  (function(){
+    var box=$("plats");
+    Object.keys(PLATFORMS).forEach(function(k){
+      var p=PLATFORMS[k], b=document.createElement("button"); b.type="button"; b.textContent=p.label;
+      b.className=(k===state.platform?"sel":"");
       b.addEventListener("click", function(){
-        state.dur=d; Array.prototype.forEach.call(box.children,function(c){c.className="";}); b.className="sel"; rebuildShow();
+        state.platform=k; Array.prototype.forEach.call(box.children,function(c){c.className="";}); b.className="sel";
+        setDur(p.dur);
+      });
+      box.appendChild(b);
+    });
+  })();
+
+  // caption animation style
+  (function(){
+    var box=$("capstyles");
+    CAP_STYLES.forEach(function(o){
+      var b=document.createElement("button"); b.type="button"; b.textContent=o.label;
+      b.className=(o.key===state.cap?"sel":"");
+      b.addEventListener("click", function(){
+        state.cap=o.key; Array.prototype.forEach.call(box.children,function(c){c.className="";}); b.className="sel";
       });
       box.appendChild(b);
     });
@@ -819,6 +1041,7 @@ var g=Q(2),I=g.Buffer;function E(A,B){for(var Q in A)B[Q]=A[Q]}function i(A,B,Q)
   })();
 
   // toggles
+  $("safe").addEventListener("change", function(e){ state.safe=e.target.checked; });
   $("brand").addEventListener("change", function(e){ state.brand=e.target.checked; });
   $("progress").addEventListener("change", function(e){ state.progress=e.target.checked; });
 
